@@ -1,35 +1,38 @@
 '''
-ARAVIS
-GENERÁTOR PLÁNU ČÍTANIA BIBLIE PO KAPITOLÁCH
 
-Program vytvorí plán čítania Biblie na základe vstupných údajov 
-zo súborov knihy.txt a zaciatok.txt a uloží ho ako tabuľku do súboru plan.txt.
-V súbore knihy.txt sa majú nachádzať požadované knihy s príslušným počtom
-kapitol, ktoré sa budú čítať po kapitole od začiatku do konca, každý deň okrem
-nedele.
-
-Dôležité poznámky
-Dátum začiatku sa zadáva v tvare deň [medzera] mesiac_číslom [medzera] rok.
-Vstupné súbory musia aj po úprave končiť prázdnym riadkom.
 '''
 
 import calendar
 import datetime as dt
 
-# získame dáta pre pravý stĺpec
-knihy, kapitoly = [], []
-with open('knihy.txt') as knihy_subor:
-    for riadok in knihy_subor:
-        if riadok:
-            kniha, kapitola = riadok.rstrip().split()
-            knihy.append(kniha)
-            kapitoly.append(int(kapitola))
+# SPOLOČNÉ
 
-# získame začiatočný dátum
-with open('zaciatok.txt') as zaciatok_subor:
-    datum = [int(clen) for clen in zaciatok_subor.read().split()]
-    datum = dt.date(*datum[::-1])
-    posun = dt.timedelta(days=1)
+PROMPT = '> '
+
+# ÚVOD
+
+ZACIATOK = 'Program "aravis" (tvorca plánu čítania Biblie) sa spustil.'
+
+print(ZACIATOK)
+
+# INPUT
+
+KNIHY_SUBOR = 'knihy.txt'
+DATUM_PROMPT = 'Zadajte počiatočný dátum plánu.'
+knihy = {}
+
+# 1) získame slovník kníh s počtom ich kapitol
+with open(KNIHY_SUBOR) as knihy_manip:
+    for riadok in knihy_manip:
+        if riadok:
+            kniha, kapitoly = riadok.rstrip().split()
+            knihy[kniha] = kapitoly
+
+# 2) získame dátum začiatku
+print(DATUM_PROMPT)
+datum = [int(clen) for clen in input(PROMPT).split()]
+datum = dt.date(*datum[::-1])
+posun = dt.timedelta(days=1)
 
 # generujeme zoznam párov kniha-kapitola
 zoznam = []
@@ -49,7 +52,7 @@ while True:
     datum += posun
 
 # exportujeme tabuľku
-with open('plan.txt', 'w') as plan_subor:
+with open('plan.txt', 'w') as plan_manip:
     for skupina in tabulka:
-        print(skupina[0], skupina[1], skupina[2], file=plan_subor)
+        print(skupina[0], skupina[1], skupina[2], file=plan_manip)
 print('Generovanie úspešné.')
