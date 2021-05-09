@@ -53,6 +53,7 @@ if s_ukoncenim:
     KONCOVY_DATUM_PROMPT_2 = 'Zadajte koncový dátum plánu.'
     print(KONCOVY_DATUM_PROMPT_2)
     datum_koncovy = input(PROMPT)
+    datum_koncovy = dt.date(*datum[::-1])  # TODO reversed() ? .->.
 
 # 4) opýtame sa na náhodné poradie
 PORADIE = 'Chcete knihy usporiadať náhodne? (A/n)'
@@ -62,6 +63,18 @@ nahodne = DECISION[nahodne_rozhodnutie.casefold()]
 
 # 5) dni v týždni
 TYZDEN = 'Chcete vybrať konkrétne dni v týždni pre čítanie plánu? (A/n)'
+print(TYZDEN)
+tyzden_rozhodnutie = input(PROMPT)
+niektore_dni = DECISION[tyzden_rozhodnutie.casefold()]
+if niektore_dni:
+    DNI_PROMPT_BEGIN = 'Postupne budete vyberať, či bude ten-ktorý deň v týždni zahrnutý.'
+    dni_kluce = ('pondelok', 'utorok', 'streda', 'štvrtok', 'piatok', 'sobota', 'nedeľa')
+    zahrnute_dni = []
+    for index, den in enumerate(dni_kluce):
+        # input
+        zahrnut = None  # TODO remake
+        if zahrnut:
+            zahrnute_dni.append(index)
 
 # generujeme zoznam párov kniha-kapitola
 zoznam = []
