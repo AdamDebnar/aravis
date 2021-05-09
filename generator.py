@@ -10,6 +10,15 @@ print(ZACIATOK)
 
 # INPUT
 
+# TODO podmienky, výnimky, formáty
+
+# potrebujeme
+# slovník kníh a kapitol
+# dátum začiatku <
+# dĺžku plánu <
+# náhodné poradie <
+# ktoré dni v týždni <
+
 # 1) získame slovník kníh s počtom ich kapitol - zo súboru
 KNIHY_SUBOR = 'knihy.txt'
 knihy = {}
@@ -26,6 +35,21 @@ print(DATUM_PROMPT)
 datum = [int(clen) for clen in input(PROMPT).split()]
 datum = dt.date(*datum[::-1])
 posun = dt.timedelta(days=1)
+
+# 3) získame dĺžku plánu
+DATUM2_PROMPT = 'Chcete zadať koncový dátum plánu? (A/n)?'
+print(DATUM2_PROMPT)
+datum2_rozhodnutie = input(PROMPT)
+datum_koncovy = None
+if datum2_rozhodnutie.casefold = 'a':
+    DATUM3_PROMPT = 'Zadajte koncový dátum plánu.'
+    print(DATUM3_PROMPT)
+    datum_koncovy = input(PROMPT)
+existuje_ukoncenie = datum_koncovy is not None
+
+# 4) opýtame sa na náhodné poradie
+PORADIE = 'Chcete knihy usporiadať náhodne? (A/n)'
+
 
 # generujeme zoznam párov kniha-kapitola
 zoznam = []
