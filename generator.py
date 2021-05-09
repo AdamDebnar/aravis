@@ -2,6 +2,7 @@ import calendar
 import datetime as dt
 
 PROMPT = '> '
+DECISION = {'a': True, 'n': False}
 
 # ÚVOD
 
@@ -37,19 +38,21 @@ datum = dt.date(*datum[::-1])
 posun = dt.timedelta(days=1)
 
 # 3) získame dĺžku plánu
-DATUM2_PROMPT = 'Chcete zadať koncový dátum plánu? (A/n)?'
+DATUM2_PROMPT = 'Chcete zadať koncový dátum plánu? (A/n)'
 print(DATUM2_PROMPT)
 datum2_rozhodnutie = input(PROMPT)
+s_ukoncenim = DECISION[datum2_rozhodnutie.casefold()]
 datum_koncovy = None
 if datum2_rozhodnutie.casefold = 'a':
     DATUM3_PROMPT = 'Zadajte koncový dátum plánu.'
     print(DATUM3_PROMPT)
     datum_koncovy = input(PROMPT)
-existuje_ukoncenie = datum_koncovy is not None
 
 # 4) opýtame sa na náhodné poradie
 PORADIE = 'Chcete knihy usporiadať náhodne? (A/n)'
-
+print(PORADIE)
+nahodne_rozhodnutie = input(PROMPT)
+nahodne = DECISION[nahodne_rozhodnutie.casefold()]
 
 # generujeme zoznam párov kniha-kapitola
 zoznam = []
