@@ -33,7 +33,7 @@ with open(KNIHY_SUBOR) as knihy_manip:
         if len(riadok) and riadok[0] != '\n':
             kniha, kapitoly = riadok.rstrip().split()
             knihy[kniha] = kapitoly
-KNIHY_END = 'Knihy načítané.'
+# KNIHY_END = 'Knihy načítané.' TODO rozhodnúť sa, či tu takéto riadky budú
 
 # 2) získame dátum začiatku - od užívateľa
 DATUM_PROMPT = 'Zadajte počiatočný dátum plánu.'
@@ -71,10 +71,19 @@ if niektore_dni:
     dni_kluce = ('pondelok', 'utorok', 'streda', 'štvrtok', 'piatok', 'sobota', 'nedeľa')
     zahrnute_dni = []
     for index, den in enumerate(dni_kluce):
-        # input
-        zahrnut = None  # TODO remake
+        DEN_PROMPT = 'Chcete zahrnúť ' + den + '? (A/n)'
+        print(DEN_PROMPT)
+        zahrnut_rozhodnutie = input(PROMPT)
+        zahrnut = DECISION[zahrnut_rozhodnutie.casefold()]
         if zahrnut:
             zahrnute_dni.append(index)
+
+# teraz máme
+# 1 knihy (dict)
+# 2 datum (dt.date), posun (dt.timedelta)
+# 3 s_ukoncenim (bool), datum_koncovy ? (dt.date)
+# 4 nahodne (bool)
+# 5 niektore_dni (bool), zahrnute_dni ? (list)
 
 # generujeme zoznam párov kniha-kapitola
 zoznam = []
