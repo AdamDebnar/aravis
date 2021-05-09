@@ -1,34 +1,27 @@
-'''
-
-'''
-
 import calendar
 import datetime as dt
-
-# SPOLOČNÉ
 
 PROMPT = '> '
 
 # ÚVOD
 
 ZACIATOK = 'Program "aravis" (tvorca plánu čítania Biblie) sa spustil.'
-
 print(ZACIATOK)
 
 # INPUT
 
+# 1) získame slovník kníh s počtom ich kapitol - zo súboru
 KNIHY_SUBOR = 'knihy.txt'
-DATUM_PROMPT = 'Zadajte počiatočný dátum plánu.'
 knihy = {}
-
-# 1) získame slovník kníh s počtom ich kapitol
 with open(KNIHY_SUBOR) as knihy_manip:
     for riadok in knihy_manip:
-        if riadok:
+        if len(riadok) and riadok[0] != '\n':
             kniha, kapitoly = riadok.rstrip().split()
             knihy[kniha] = kapitoly
 
-# 2) získame dátum začiatku
+# 2) získame dátum začiatku - od užívateľa
+DATUM_PROMPT = 'Zadajte počiatočný dátum plánu.'
+datum = posun = None
 print(DATUM_PROMPT)
 datum = [int(clen) for clen in input(PROMPT).split()]
 datum = dt.date(*datum[::-1])
