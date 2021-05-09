@@ -20,14 +20,20 @@ print(ZACIATOK)
 # náhodné poradie <
 # ktoré dni v týždni <
 
+# možno pridaj "Zaznamenané / Chybný vstup"
+
 # 1) získame slovník kníh s počtom ich kapitol - zo súboru
 KNIHY_SUBOR = 'knihy.txt'
+KNIHY_OTAZKA = ('Skontrolujte zoznam kníh s kapitolami v súbore ' 
++ KNIHY_SUBOR + ' a ak ste spokojný, stlačte ENTER >> ')
+enter = input(KNIHY_OTAZKA)
 knihy = {}
 with open(KNIHY_SUBOR) as knihy_manip:
     for riadok in knihy_manip:
         if len(riadok) and riadok[0] != '\n':
             kniha, kapitoly = riadok.rstrip().split()
             knihy[kniha] = kapitoly
+KNIHY_END = 'Knihy načítané.'
 
 # 2) získame dátum začiatku - od užívateľa
 DATUM_PROMPT = 'Zadajte počiatočný dátum plánu.'
@@ -38,14 +44,14 @@ datum = dt.date(*datum[::-1])
 posun = dt.timedelta(days=1)
 
 # 3) získame dĺžku plánu
-DATUM2_PROMPT = 'Chcete zadať koncový dátum plánu? (A/n)'
-print(DATUM2_PROMPT)
-datum2_rozhodnutie = input(PROMPT)
-s_ukoncenim = DECISION[datum2_rozhodnutie.casefold()]
+KONCOVY_DATUM_PROMPT = 'Chcete zadať koncový dátum plánu? (A/n)'
+print(KONCOVY_DATUM_PROMPT)
+koncovy_datum_rozhodnutie = input(PROMPT)
+s_ukoncenim = DECISION[koncovy_datum_rozhodnutie.casefold()]
 datum_koncovy = None
-if datum2_rozhodnutie.casefold = 'a':
-    DATUM3_PROMPT = 'Zadajte koncový dátum plánu.'
-    print(DATUM3_PROMPT)
+if s_ukoncenim:
+    KONCOVY_DATUM_PROMPT_2 = 'Zadajte koncový dátum plánu.'
+    print(KONCOVY_DATUM_PROMPT_2)
     datum_koncovy = input(PROMPT)
 
 # 4) opýtame sa na náhodné poradie
@@ -53,6 +59,9 @@ PORADIE = 'Chcete knihy usporiadať náhodne? (A/n)'
 print(PORADIE)
 nahodne_rozhodnutie = input(PROMPT)
 nahodne = DECISION[nahodne_rozhodnutie.casefold()]
+
+# 5) dni v týždni
+TYZDEN = 'Chcete vybrať konkrétne dni v týždni pre čítanie plánu? (A/n)'
 
 # generujeme zoznam párov kniha-kapitola
 zoznam = []
