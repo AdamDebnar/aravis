@@ -116,6 +116,6 @@ while True:
 
 # exportujeme tabuľku
 with open('plan.txt', 'w') as plan_manip:
-    for skupina in tabulka:
-        print(skupina[0], skupina[1], skupina[2], file=plan_manip)
+    for skupina in hotova_tabulka:
+        print(*skupina[0:3], file=plan_manip)
 print('Generovanie úspešné.')
