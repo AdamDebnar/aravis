@@ -1,5 +1,6 @@
 import calendar
 import datetime as dt
+import random
 
 PROMPT = '> '
 DECISION = {'a': True, 'n': False}
@@ -32,7 +33,7 @@ with open(KNIHY_SUBOR) as knihy_manip:
     for riadok in knihy_manip:
         if len(riadok) and riadok[0] != '\n':
             kniha, kapitoly = riadok.rstrip().split()
-            knihy[kniha] = kapitoly
+            knihy[kniha] = int(kapitoly)
 # KNIHY_END = 'Knihy načítané.' TODO rozhodnúť sa, či tu takéto riadky budú
 
 # 2) získame dátum začiatku - od užívateľa
@@ -86,10 +87,15 @@ if niektore_dni:
 # 5 niektore_dni (bool), zahrnute_dni ? (list)
 
 # generujeme zoznam párov kniha-kapitola
-zoznam = []
-for cislo_knihy, kniha in enumerate(knihy):
-    for cislo in range(1, kapitoly[cislo_knihy]+1):
-        zoznam.append((kniha, cislo))
+postupny_zoznam = []
+nazvy_knih = knihy.keys()
+for x in range(knihy.keys()):
+    if nahodne:
+        vybrata_kniha = nazvy_knih.pop(random.randrange(len(nazvy_knih)))
+    else:
+        vybrata_kniha = nazvy_knih.pop(0)
+    for cislo in range(1, knihy[vybrata_kniha]+1):
+        zoznam.append((vybrata_kniha, cislo))
 
 # generujeme tabuľku
 tabulka = []
