@@ -98,14 +98,20 @@ for x in range(knihy.keys()):
         zoznam.append((vybrata_kniha, cislo))
 
 # generujeme tabuľku
-tabulka = []
+hotova_tabulka = []
 while True:
+    datum_list = [int(clen) for clen in str(datum).split('-')]
     if not len(zoznam):
         break
-    if calendar.weekday(*[int(clen) for clen in str(datum).split('-')]) != 6:
-        # 6 == nedeľa
-        kniha, kapitola = zoznam.pop(0)
-        tabulka.append((datum, kniha, kapitola))
+    if s_ukoncenim and datum > datum_koncovy:
+        break
+    if niektore_dni:
+        if calendar.weekday(*datum_list) not in zahrnute_dni:
+            datum += posun
+            continue
+    kniha, kapitola = zoznam.pop(0)
+    datum_pripraveny = '.'.join(datum_list)
+    tabulka.append((datum_pripraveny, kniha, kapitola))
     datum += posun
 
 # exportujeme tabuľku
