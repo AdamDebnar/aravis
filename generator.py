@@ -34,10 +34,9 @@ with open(KNIHY_SUBOR) as knihy_manip:
         if len(riadok) and riadok[0] != '\n':
             kniha, kapitoly = riadok.rstrip().split()
             knihy[kniha] = int(kapitoly)
-# KNIHY_END = 'Knihy načítané.' TODO rozhodnúť sa, či tu takéto riadky budú
 
 # 2) získame dátum začiatku - od užívateľa
-DATUM_PROMPT = 'Zadajte počiatočný dátum plánu.'
+DATUM_PROMPT = 'Zadajte počiatočný dátum plánu v tvare: deň mesiac rok'
 datum = posun = None
 print(DATUM_PROMPT)
 datum = [int(clen) for clen in input(PROMPT).split()]  # TODO try
@@ -48,10 +47,13 @@ posun = dt.timedelta(days=1)
 KONCOVY_DATUM_PROMPT = 'Chcete zadať koncový dátum plánu? (A/n)'
 print(KONCOVY_DATUM_PROMPT)
 koncovy_datum_rozhodnutie = input(PROMPT)
-s_ukoncenim = DECISION[koncovy_datum_rozhodnutie.casefold()]  # TODO try
+if koncovy_datum_rozhodnutie:
+    s_ukoncenim = DECISION[koncovy_datum_rozhodnutie.casefold()]  # TODO try
+else:
+    s_ukoncenim = True
 datum_koncovy = None
 if s_ukoncenim:
-    KONCOVY_DATUM_PROMPT_2 = 'Zadajte koncový dátum plánu.'
+    KONCOVY_DATUM_PROMPT_2 = 'Zadajte koncový dátum plánu v tvare: deň mesiac rok'
     print(KONCOVY_DATUM_PROMPT_2)
     datum_koncovy = [int(clen) for clen in input(PROMPT).split()]
     datum_koncovy = dt.date(*reversed(datum_koncovy))  # TODO reversed() ? .->.
@@ -60,22 +62,32 @@ if s_ukoncenim:
 PORADIE = 'Chcete knihy usporiadať náhodne? (A/n)'
 print(PORADIE)
 nahodne_rozhodnutie = input(PROMPT)
-nahodne = DECISION[nahodne_rozhodnutie.casefold()]
+if nahodne_rozhodnutie:
+    nahodne = DECISION[nahodne_rozhodnutie.casefold()]
+else:
+    nahodne = True
 
 # 5) dni v týždni
 TYZDEN = 'Chcete vybrať konkrétne dni v týždni pre čítanie plánu? (A/n)'
 print(TYZDEN)
 tyzden_rozhodnutie = input(PROMPT)
-niektore_dni = DECISION[tyzden_rozhodnutie.casefold()]
+if tyzden_rozhodnutie:
+    niektore_dni = DECISION[tyzden_rozhodnutie.casefold()]
+else:
+    niektore_dni = True
 if niektore_dni:
     DNI_PROMPT_BEGIN = 'Postupne budete vyberať, či bude ten-ktorý deň v týždni zahrnutý.'
+    print(DNI_PROMPT_BEGIN)
     dni_kluce = ('pondelok', 'utorok', 'streda', 'štvrtok', 'piatok', 'sobota', 'nedeľa')
     zahrnute_dni = []
     for index, den in enumerate(dni_kluce):
         DEN_PROMPT = 'Chcete zahrnúť ' + den + '? (A/n)'
         print(DEN_PROMPT)
         zahrnut_rozhodnutie = input(PROMPT)
-        zahrnut = DECISION[zahrnut_rozhodnutie.casefold()]
+        if zahrnut_rozhodnutie:
+            zahrnut = DECISION[zahrnut_rozhodnutie.casefold()]
+        else:
+            zahrnut = True
         if zahrnut:
             zahrnute_dni.append(index)
 
