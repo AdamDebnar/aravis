@@ -40,21 +40,21 @@ with open(KNIHY_SUBOR) as knihy_manip:
 DATUM_PROMPT = 'Zadajte počiatočný dátum plánu.'
 datum = posun = None
 print(DATUM_PROMPT)
-datum = [int(clen) for clen in input(PROMPT).split()]
-datum = dt.date(*datum[::-1])
+datum = [int(clen) for clen in input(PROMPT).split()]  # TODO try
+datum = dt.date(*reversed(datum))
 posun = dt.timedelta(days=1)
 
 # 3) získame dĺžku plánu
 KONCOVY_DATUM_PROMPT = 'Chcete zadať koncový dátum plánu? (A/n)'
 print(KONCOVY_DATUM_PROMPT)
 koncovy_datum_rozhodnutie = input(PROMPT)
-s_ukoncenim = DECISION[koncovy_datum_rozhodnutie.casefold()]
+s_ukoncenim = DECISION[koncovy_datum_rozhodnutie.casefold()]  # TODO try
 datum_koncovy = None
 if s_ukoncenim:
     KONCOVY_DATUM_PROMPT_2 = 'Zadajte koncový dátum plánu.'
     print(KONCOVY_DATUM_PROMPT_2)
-    datum_koncovy = input(PROMPT)
-    datum_koncovy = dt.date(*datum[::-1])  # TODO reversed() ? .->.
+    datum_koncovy = [int(clen) for clen in input(PROMPT).split()]
+    datum_koncovy = dt.date(*reversed(datum_koncovy))  # TODO reversed() ? .->.
 
 # 4) opýtame sa na náhodné poradie
 PORADIE = 'Chcete knihy usporiadať náhodne? (A/n)'
@@ -79,6 +79,8 @@ if niektore_dni:
         if zahrnut:
             zahrnute_dni.append(index)
 
+# PROCESSING
+
 # teraz máme
 # 1 knihy (dict)
 # 2 datum (dt.date), posun (dt.timedelta)
@@ -88,20 +90,20 @@ if niektore_dni:
 
 # generujeme zoznam párov kniha-kapitola
 postupny_zoznam = []
-nazvy_knih = knihy.keys()
-for x in range(knihy.keys()):
+nazvy_knih = list(knihy.keys())
+for x in range(len(knihy.keys())):
     if nahodne:
         vybrata_kniha = nazvy_knih.pop(random.randrange(len(nazvy_knih)))
     else:
         vybrata_kniha = nazvy_knih.pop(0)
     for cislo in range(1, knihy[vybrata_kniha]+1):
-        zoznam.append((vybrata_kniha, cislo))
+        postupny_zoznam.append((vybrata_kniha, cislo))
 
 # generujeme tabuľku
 hotova_tabulka = []
 while True:
     datum_list = [int(clen) for clen in str(datum).split('-')]
-    if not len(zoznam):
+    if not len(postupny_zoznam):
         break
     if s_ukoncenim and datum > datum_koncovy:
         break
@@ -109,13 +111,15 @@ while True:
         if calendar.weekday(*datum_list) not in zahrnute_dni:
             datum += posun
             continue
-    kniha, kapitola = zoznam.pop(0)
-    datum_pripraveny = '.'.join(datum_list)
-    tabulka.append((datum_pripraveny, kniha, kapitola))
+    kniha, kapitola = postupny_zoznam.pop(0)
+    datum_pripraveny = '.'.join([str(clen) for clen in reversed(datum_list)])
+    hotova_tabulka.append((datum_pripraveny, kniha, kapitola))
     datum += posun
+
+# OUTPUT
 
 # exportujeme tabuľku
 with open('plan.txt', 'w') as plan_manip:
     for skupina in hotova_tabulka:
-        print(*skupina[0:3], file=plan_manip)
+        print(*skupina, file=plan_manip)
 print('Generovanie úspešné.')
